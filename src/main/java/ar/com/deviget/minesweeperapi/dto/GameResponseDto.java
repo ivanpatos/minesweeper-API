@@ -17,6 +17,8 @@ public class GameResponseDto {
 	
 	private List<CellResponseDto> cells = new ArrayList<CellResponseDto>();
 	
+	private String state;
+	
 	public GameResponseDto(Game game) {
 		id = String.valueOf(game.getId());
 		columns = String.valueOf(game.getColumns());
@@ -25,6 +27,7 @@ public class GameResponseDto {
 		game.getCells().stream().forEach(x -> {
 			cells.add(new CellResponseDto(x));
 		});
+		state = game.getState().getDescription();
 	}
 
 	public String getId() {
@@ -65,6 +68,14 @@ public class GameResponseDto {
 
 	public void setCells(List<CellResponseDto> cells) {
 		this.cells = cells;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}	
 
 }

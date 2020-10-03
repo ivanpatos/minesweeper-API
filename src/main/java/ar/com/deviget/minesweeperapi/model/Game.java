@@ -31,6 +31,8 @@ public class Game {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Cell> cells = new ArrayList<Cell>();
+	
+	private GameState state;
 
 	public Game() {	}
 
@@ -63,6 +65,8 @@ public class Game {
 		}); 
 		
 		cells.stream().filter(c -> !c.isMine()).forEach(c -> c.setAdjacentMinesCount(cells));
+		
+		state = GameState.RUNNING;
 		
 	}
 
@@ -104,6 +108,14 @@ public class Game {
 
 	public void setCells(List<Cell> cells) {
 		this.cells = cells;
+	}
+
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
 	}
 
 }
