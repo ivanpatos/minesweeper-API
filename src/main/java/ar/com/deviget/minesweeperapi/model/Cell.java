@@ -1,5 +1,7 @@
 package ar.com.deviget.minesweeperapi.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -34,6 +36,24 @@ public class Cell {
 	private Game game;
 	
 	public Cell() { }
+	
+	public Cell(int x, int y, Game game) {
+		this.game = game;
+		this.x = x;
+		this.y = y;
+		mine = false;
+		revealed = false;
+		flagState = FlagState.NO_FLAG;
+		adjacentMinesCount = 0;
+	}
+	
+	private boolean isAdjacent(Cell cell) {
+		return !this.equals(cell) && Math.abs(this.x - cell.getX()) <= 1 && Math.abs(this.y - cell.getY()) <= 1;
+	}
+	
+	public void setAdjacentMinesCount(List<Cell> cells) {
+		this.adjacentMinesCount = (int) cells.stream().filter(c -> c.isAdjacent(this) && c.isMine()).count();
+	}
 
 	public Integer getId() {
 		return id;
