@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import ar.com.deviget.minesweeperapi.dto.GameRequestDto;
+import ar.com.deviget.minesweeperapi.exception.InvalidGameException;
 
 @Entity
 @Table(name = "game")
@@ -31,43 +32,65 @@ public class Game {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Cell> cells = new ArrayList<Cell>();
-	
+
 	private GameState state;
 
-	public Game() {	}
+	public Game() {
+	}
 
 	public Game(GameRequestDto gameRequestDto) {
 		columns = Integer.parseInt(gameRequestDto.getColumns());
 		rows = Integer.parseInt(gameRequestDto.getRows());
 		mines = Integer.parseInt(gameRequestDto.getMines());
 	}
-	
+
 	public void initialize() {
 
 		if (!cells.isEmpty()) {
 			cells.clear();
 		}
-			
-		for (int i=0; i<rows; i++) {
-			for (int j=0; j<columns; j++) {
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
 				Cell cell = new Cell(i, j, this);
 				cells.add(cell);
 			}
-		}	
-		
+		}
+
 		Collections.shuffle(cells);
 		cells.stream().limit(mines).forEach(c -> c.setMine(true));
-		cells.sort((a,b) -> {
+		cells.sort((a, b) -> {
 			if (a.getX() - b.getX() == 0)
 				return a.getY() - b.getY();
 			else
 				return a.getX() - b.getX();
-		}); 
-		
+		});
+
 		cells.stream().filter(c -> !c.isMine()).forEach(c -> c.setAdjacentMinesCount(cells));
-		
+
 		state = GameState.RUNNING;
+
+	}
+
+	public void reveal(int idCell) throws InvalidGameException {
 		
+		Cell cell = cells.stream().filter(c -> c.getId().equals(idCell)).findAny().orElseThrow(() -> new InvalidGameException("Cell not found"));
+
+		if (cell.getFlagState() == FlagState.RED_FLAG || cell.isRevealed()) {
+			return;
+		}
+
+		if (cell.isMine()) {
+			state = GameState.LOSE;
+			return;
+		}
+
+		cell.reveal(cells);
+
+		if (cells.stream().filter(c -> !c.isMine()).allMatch(c -> c.isRevealed())) {
+			state = GameState.WIN;
+		}
+
 	}
 
 	public Integer getId() {

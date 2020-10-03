@@ -27,4 +27,11 @@ public class GameService {
 		return new GameResponseDto(game);
 	}
 
+	public GameResponseDto revealCell(int idGame, int idCell) throws InvalidGameException {
+		Game game = gameRepository.findById(idGame).orElseThrow(() -> new InvalidGameException("Game not found"));
+		game.reveal(idCell);
+		gameRepository.save(game);
+		return new GameResponseDto(game);
+	}
+
 }

@@ -31,5 +31,11 @@ public class GameController {
     public GameResponseDto getGame(@PathVariable("idGame") int idGame) throws InvalidGameException {
         return gameService.getGame(idGame);
     }
+	
+	@RequestMapping(value = "/{idGame}/cell/{idCell}/reveal", method = RequestMethod.PUT)
+    @ResponseBody
+    public GameResponseDto revealCell(@PathVariable("idGame") int idGame, @PathVariable("idCell") int idCell) throws InvalidGameException {
+        return gameService.revealCell(idGame, idCell);
+    }
 
 }

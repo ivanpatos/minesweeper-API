@@ -54,6 +54,18 @@ public class Cell {
 	public void setAdjacentMinesCount(List<Cell> cells) {
 		this.adjacentMinesCount = (int) cells.stream().filter(c -> c.isAdjacent(this) && c.isMine()).count();
 	}
+	
+	public void reveal(List<Cell> cells) {
+		this.revealed = true;
+		cells.stream().filter(c -> this.isAdjacent(c) && !c.isMine() && c.getFlagState() != FlagState.RED_FLAG && !c.isRevealed()).forEach(c -> {
+			if (c.getAdjacentMinesCount() > 0) {
+				c.setRevealed(true);
+			}
+			else {
+				c.reveal(cells);
+			}
+		});		
+	}
 
 	public Integer getId() {
 		return id;
