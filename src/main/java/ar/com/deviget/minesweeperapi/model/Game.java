@@ -109,6 +109,15 @@ public class Game {
 			}
 		}
 	}
+	
+	public void pause() {
+		if (state == GameState.RUNNING) {
+			state = GameState.PAUSED;
+		}
+		else if (state == GameState.PAUSED) {
+			state = GameState.RUNNING;	
+		}
+	}
 
 	public Integer getId() {
 		return id;

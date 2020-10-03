@@ -41,4 +41,11 @@ public class GameService {
 		return new GameResponseDto(game);
 	}
 
+	public GameResponseDto pauseGame(int idGame) throws InvalidGameException {
+		Game game = gameRepository.findById(idGame).orElseThrow(() -> new InvalidGameException("Game not found"));
+		game.pause();
+		gameRepository.save(game);
+		return new GameResponseDto(game);
+	}
+
 }

@@ -43,5 +43,11 @@ public class GameController {
     public GameResponseDto flagCell(@PathVariable("idGame") int idGame, @PathVariable("idCell") int idCell) throws InvalidGameException {
         return gameService.flagCell(idGame, idCell);
     }
+	
+	@RequestMapping(value = "/{idGame}/pause", method = RequestMethod.PUT)
+    @ResponseBody
+    public GameResponseDto pauseGame(@PathVariable("idGame") int idGame) throws InvalidGameException {
+        return gameService.pauseGame(idGame);
+    }
 
 }
