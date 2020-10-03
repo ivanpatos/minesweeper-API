@@ -37,5 +37,11 @@ public class GameController {
     public GameResponseDto revealCell(@PathVariable("idGame") int idGame, @PathVariable("idCell") int idCell) throws InvalidGameException {
         return gameService.revealCell(idGame, idCell);
     }
+	
+	@RequestMapping(value = "/{idGame}/cell/{idCell}/flag", method = RequestMethod.PUT)
+    @ResponseBody
+    public GameResponseDto flagCell(@PathVariable("idGame") int idGame, @PathVariable("idCell") int idCell) throws InvalidGameException {
+        return gameService.flagCell(idGame, idCell);
+    }
 
 }

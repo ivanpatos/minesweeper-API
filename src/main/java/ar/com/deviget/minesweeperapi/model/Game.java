@@ -92,6 +92,23 @@ public class Game {
 		}
 
 	}
+	
+	public void flag(int idCell) throws InvalidGameException {
+		Cell cell = cells.stream().filter(c -> c.getId().equals(idCell)).findAny().orElseThrow(() -> new InvalidGameException("Cell not found"));
+		if (!cell.isRevealed()) {
+			switch (cell.getFlagState()) {
+			case NO_FLAG:
+				cell.setFlagState(FlagState.RED_FLAG);
+				break;
+			case RED_FLAG:
+				cell.setFlagState(FlagState.QUESTION_MARK);
+				break;
+			case QUESTION_MARK:
+				cell.setFlagState(FlagState.NO_FLAG);
+				break;
+			}
+		}
+	}
 
 	public Integer getId() {
 		return id;
