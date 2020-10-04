@@ -28,6 +28,12 @@ The API will be deployed by default at http://localhost:8085/minesweeper
 
 Database url (+ user and password), server context path and port can be configured by editing "application.properties", located in src/main/resources
 
+The API was also deployed in Heroku: https://glacial-depths-40114.herokuapp.com/minesweeper
+
+## API client library
+
+Repository for the API client library, https://github.com/ivanpatos/minesweeper-API-client
+
 ## API specification
 
 The following endpoints are available (all requests with header including "Content-Type": "application/json"). Postman collection with request examples available in src/main/resources
