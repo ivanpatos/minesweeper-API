@@ -22,7 +22,7 @@ public class PlayerController {
 	
 	@RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public PlayerResponseDto createPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
+    public PlayerResponseDto createPlayer(@RequestBody PlayerRequestDto playerRequestDto) throws InvalidPlayerException {
         return playerService.createPlayer(playerRequestDto);
     }
 	

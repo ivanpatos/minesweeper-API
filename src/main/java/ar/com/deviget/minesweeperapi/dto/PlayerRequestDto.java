@@ -31,5 +31,9 @@ public class PlayerRequestDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public boolean isValid() {
+		return !(username == null || password == null);
+	}
 
 }

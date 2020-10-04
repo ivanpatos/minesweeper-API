@@ -15,7 +15,10 @@ public class PlayerService {
 	@Autowired
 	private PlayerRepository playerRepository;
 	
-	public PlayerResponseDto createPlayer(PlayerRequestDto playerRequestDto) {
+	public PlayerResponseDto createPlayer(PlayerRequestDto playerRequestDto) throws InvalidPlayerException {
+		if (!playerRequestDto.isValid()) {
+			throw new InvalidPlayerException("Missing mandatory parameters");
+		}
 		Player player = new Player(playerRequestDto);
 		playerRepository.save(player);
 		return new PlayerResponseDto(player);

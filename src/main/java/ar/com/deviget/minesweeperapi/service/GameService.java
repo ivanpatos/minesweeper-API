@@ -21,7 +21,10 @@ public class GameService {
 	@Autowired
 	private PlayerRepository playerRepository;
 
-	public GameResponseDto createGame(GameRequestDto gameRequestDto) throws InvalidPlayerException {
+	public GameResponseDto createGame(GameRequestDto gameRequestDto) throws InvalidGameException, InvalidPlayerException {
+		if (!gameRequestDto.isValid()) {
+			throw new InvalidGameException("Missing mandatory parameters");
+		}
 		Player player = playerRepository.findById(Integer.parseInt(gameRequestDto.getPlayerId())).orElseThrow(() -> new InvalidPlayerException("Player not found"));
 		Game game = new Game(gameRequestDto, player);
 		game.initialize();

@@ -41,5 +41,9 @@ public class GameRequestDto {
 	public void setMines(String mines) {
 		this.mines = mines;
 	}
+	
+	public boolean isValid() {
+		return !(playerId == null || columns == null || rows == null || mines == null);
+	}
 
 }

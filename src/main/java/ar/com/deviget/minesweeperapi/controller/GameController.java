@@ -23,7 +23,7 @@ public class GameController {
 	
 	@RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public GameResponseDto createGame(@RequestBody GameRequestDto gameRequestDto) throws InvalidPlayerException {
+    public GameResponseDto createGame(@RequestBody GameRequestDto gameRequestDto) throws InvalidGameException, InvalidPlayerException {
         return gameService.createGame(gameRequestDto);
     }
 	
