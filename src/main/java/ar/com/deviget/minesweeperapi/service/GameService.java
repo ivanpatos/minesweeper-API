@@ -29,21 +29,33 @@ public class GameService {
 
 	public GameResponseDto revealCell(int idGame, int idCell) throws InvalidGameException {
 		Game game = gameRepository.findById(idGame).orElseThrow(() -> new InvalidGameException("Game not found"));
+		if (game.isFinished() || game.isPaused()) {
+			throw new InvalidGameException("Game is not running");
+		}
 		game.reveal(idCell);
+		game.setUpdateTime();
 		gameRepository.save(game);
 		return new GameResponseDto(game);
 	}
 
 	public GameResponseDto flagCell(int idGame, int idCell) throws InvalidGameException {
 		Game game = gameRepository.findById(idGame).orElseThrow(() -> new InvalidGameException("Game not found"));
+		if (game.isFinished() || game.isPaused()) {
+			throw new InvalidGameException("Game is not running");
+		}
 		game.flag(idCell);
+		game.setUpdateTime();
 		gameRepository.save(game);
 		return new GameResponseDto(game);
 	}
 
 	public GameResponseDto pauseGame(int idGame) throws InvalidGameException {
 		Game game = gameRepository.findById(idGame).orElseThrow(() -> new InvalidGameException("Game not found"));
+		if (game.isFinished()) {
+			throw new InvalidGameException("Game is not running");
+		}
 		game.pause();
+		game.setUpdateTime();
 		gameRepository.save(game);
 		return new GameResponseDto(game);
 	}

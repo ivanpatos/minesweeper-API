@@ -2,6 +2,7 @@ package ar.com.deviget.minesweeperapi.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -34,6 +35,10 @@ public class Game {
 	private List<Cell> cells = new ArrayList<Cell>();
 
 	private GameState state;
+	
+	private Date startingTime;
+	
+	private Date updateTime;
 
 	public Game() {
 	}
@@ -69,6 +74,8 @@ public class Game {
 		cells.stream().filter(c -> !c.isMine()).forEach(c -> c.setAdjacentMinesCount(cells));
 
 		state = GameState.RUNNING;
+		startingTime = new Date();
+		updateTime = startingTime;
 
 	}
 
@@ -115,8 +122,16 @@ public class Game {
 			state = GameState.PAUSED;
 		}
 		else if (state == GameState.PAUSED) {
-			state = GameState.RUNNING;	
+			state = GameState.RUNNING;
 		}
+	}
+	
+	public boolean isPaused() {
+		return state == GameState.PAUSED;
+	}
+	
+	public boolean isFinished() {
+		return state == GameState.WIN || state == GameState.LOSE;
 	}
 
 	public Integer getId() {
@@ -165,6 +180,26 @@ public class Game {
 
 	public void setState(GameState state) {
 		this.state = state;
+	}
+
+	public Date getStartingTime() {
+		return startingTime;
+	}
+
+	public void setStartingTime(Date startingTime) {
+		this.startingTime = startingTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	
+	public void setUpdateTime() {
+		updateTime = new Date();
 	}
 
 }

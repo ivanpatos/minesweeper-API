@@ -1,5 +1,7 @@
 package ar.com.deviget.minesweeperapi.dto;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,10 @@ public class GameResponseDto {
 	
 	private String state;
 	
+	private String startingTime;
+	
+	private String updateTime;
+	
 	public GameResponseDto(Game game) {
 		id = String.valueOf(game.getId());
 		columns = String.valueOf(game.getColumns());
@@ -27,7 +33,10 @@ public class GameResponseDto {
 		game.getCells().stream().forEach(x -> {
 			cells.add(new CellResponseDto(x));
 		});
-		state = game.getState().getDescription();
+		state = game.getState().getDescription();		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		startingTime = df.format(game.getStartingTime());
+		updateTime = df.format(game.getUpdateTime());
 	}
 
 	public String getId() {
@@ -76,6 +85,22 @@ public class GameResponseDto {
 
 	public void setState(String state) {
 		this.state = state;
-	}	
+	}
+
+	public String getStartingTime() {
+		return startingTime;
+	}
+
+	public void setStartingTime(String startingTime) {
+		this.startingTime = startingTime;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
 
 }
