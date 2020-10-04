@@ -2,11 +2,21 @@ package ar.com.deviget.minesweeperapi.dto;
 
 public class GameRequestDto {
 	
+	private String playerId;
+	
 	private String columns;
 
 	private String rows;
 
 	private String mines;
+
+	public String getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
+	}
 
 	public String getColumns() {
 		return columns;

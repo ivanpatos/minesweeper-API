@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ar.com.deviget.minesweeperapi.dto.GameRequestDto;
 import ar.com.deviget.minesweeperapi.dto.GameResponseDto;
 import ar.com.deviget.minesweeperapi.exception.InvalidGameException;
+import ar.com.deviget.minesweeperapi.exception.InvalidPlayerException;
 import ar.com.deviget.minesweeperapi.service.GameService;
 
 @Controller
@@ -22,7 +23,7 @@ public class GameController {
 	
 	@RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public GameResponseDto createGame(@RequestBody GameRequestDto gameRequestDto) {
+    public GameResponseDto createGame(@RequestBody GameRequestDto gameRequestDto) throws InvalidPlayerException {
         return gameService.createGame(gameRequestDto);
     }
 	

@@ -25,6 +25,8 @@ public class GameResponseDto {
 	
 	private String updateTime;
 	
+	private String playerId;
+	
 	public GameResponseDto(Game game) {
 		id = String.valueOf(game.getId());
 		columns = String.valueOf(game.getColumns());
@@ -37,6 +39,7 @@ public class GameResponseDto {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		startingTime = df.format(game.getStartingTime());
 		updateTime = df.format(game.getUpdateTime());
+		playerId = String.valueOf(game.getPlayer().getId());
 	}
 
 	public String getId() {
@@ -101,6 +104,14 @@ public class GameResponseDto {
 
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
 	}
 
 }

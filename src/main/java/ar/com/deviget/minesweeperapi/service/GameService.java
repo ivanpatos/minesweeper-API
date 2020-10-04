@@ -6,17 +6,24 @@ import org.springframework.stereotype.Service;
 import ar.com.deviget.minesweeperapi.dto.GameRequestDto;
 import ar.com.deviget.minesweeperapi.dto.GameResponseDto;
 import ar.com.deviget.minesweeperapi.exception.InvalidGameException;
+import ar.com.deviget.minesweeperapi.exception.InvalidPlayerException;
 import ar.com.deviget.minesweeperapi.model.Game;
+import ar.com.deviget.minesweeperapi.model.Player;
 import ar.com.deviget.minesweeperapi.respository.GameRepository;
+import ar.com.deviget.minesweeperapi.respository.PlayerRepository;
 
 @Service
 public class GameService {
 	
 	@Autowired
 	private GameRepository gameRepository;
+	
+	@Autowired
+	private PlayerRepository playerRepository;
 
-	public GameResponseDto createGame(GameRequestDto gameRequestDto) {
-		Game game = new Game(gameRequestDto);
+	public GameResponseDto createGame(GameRequestDto gameRequestDto) throws InvalidPlayerException {
+		Player player = playerRepository.findById(Integer.parseInt(gameRequestDto.getPlayerId())).orElseThrow(() -> new InvalidPlayerException("Player not found"));
+		Game game = new Game(gameRequestDto, player);
 		game.initialize();
 		gameRepository.save(game);
 		return new GameResponseDto(game);

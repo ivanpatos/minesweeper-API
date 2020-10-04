@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -39,14 +41,19 @@ public class Game {
 	private Date startingTime;
 	
 	private Date updateTime;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id")
+	private Player player;
 
 	public Game() {
 	}
 
-	public Game(GameRequestDto gameRequestDto) {
+	public Game(GameRequestDto gameRequestDto, Player player) {
 		columns = Integer.parseInt(gameRequestDto.getColumns());
 		rows = Integer.parseInt(gameRequestDto.getRows());
 		mines = Integer.parseInt(gameRequestDto.getMines());
+		this.player = player;
 	}
 
 	public void initialize() {
@@ -200,6 +207,14 @@ public class Game {
 	
 	public void setUpdateTime() {
 		updateTime = new Date();
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 }

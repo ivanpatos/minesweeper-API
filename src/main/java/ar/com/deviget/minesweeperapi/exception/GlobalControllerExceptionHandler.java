@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalControllerExceptionHandler {
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler({ InvalidGameException.class })
+	@ExceptionHandler({ InvalidGameException.class, InvalidPlayerException.class })
 	@ResponseBody
 	public ErrorInfo handleBadRequest(HttpServletRequest req, Exception ex) {
 		return new ErrorInfo(req.getRequestURL().toString(), ex);
